@@ -6,6 +6,7 @@ import cl.bibliotecaam.asistencia.asistencia.model.Asistencia;
 import cl.bibliotecaam.asistencia.asistencia.repository.AsistenciaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -21,7 +22,8 @@ import java.util.stream.Collectors;
 public class AsistenciaService {
     private final AsistenciaRepository asistenciaRepository;
 
-    private final WebClient webClient;
+    private final WebClient webClientUsuario;
+    private final WebClient webClientTaller;
 
     private AsistenciaResponseDTO mapToDTO(Asistencia asistencia){
         return new AsistenciaResponseDTO(
@@ -33,7 +35,7 @@ public class AsistenciaService {
 
     private void validarUsuario(Long idUsuario){
         try {
-            webClient.get()
+            webClientUsuario.get()
                     .uri("/api/bibliotecaam/usuario/{id}", idUsuario)
                     .retrieve()
                     .bodyToMono(String.class)
@@ -49,7 +51,7 @@ public class AsistenciaService {
 
     private void validarTaller(Long idTaller){
         try {
-            webClient.get()
+            webClientTaller.get()
                     .uri("/api/bibliotecaam/taller/{id}", idTaller)
                     .retrieve()
                     .bodyToMono(String.class)

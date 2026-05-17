@@ -2,7 +2,6 @@ package cl.bibliotecaam.asistencia.asistencia.controller;
 
 import cl.bibliotecaam.asistencia.asistencia.dto.AsistenciaRequestDTO;
 import cl.bibliotecaam.asistencia.asistencia.dto.AsistenciaResponseDTO;
-import cl.bibliotecaam.asistencia.asistencia.model.Asistencia;
 import cl.bibliotecaam.asistencia.asistencia.service.AsistenciaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/bibliotecaam/asistencia")
 @RequiredArgsConstructor
-public class asistenciaController {
+public class AsistenciaController {
     private final AsistenciaService asistenciaService;
 
     @GetMapping
