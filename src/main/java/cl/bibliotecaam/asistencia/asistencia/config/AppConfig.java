@@ -6,12 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class AppConfig {
+public class AppConfigTaller {
     @Value("${taller.url}")
     private String tallerUrl;
-
-    @Value("${usuario.url}")
-    private String usuarioUrl;
 
     @Bean
     public WebClient webClientTaller(){
@@ -20,10 +17,5 @@ public class AppConfig {
                 .build();
     }
 
-    @Bean
-    public WebClient webClientUsuario(){
-        return WebClient.builder()
-                .baseUrl(usuarioUrl)
-                .build();
-    }
+
 }
