@@ -23,15 +23,13 @@ public class DataInitializer implements CommandLineRunner {
 
         log.info(">>> Data Initializer: BD vacia detectada. Insertando datos de prueba.");
 
-        Asistencia asistencia1 = asistenciaRepository.save(new Asistencia(
-                null, 001L, 001L
+        asistenciaRepository.save(new Asistencia(null, 1L, 1L));
+
+        asistenciaRepository.save(new Asistencia(
+                null, 2L, 1L
         ));
 
-        Asistencia asistencia2 = asistenciaRepository.save(new Asistencia(
-                null, 002L, 055L
-        ));
-
-        Asistencia asistencia3 = asistenciaRepository.save(new Asistencia(
+        asistenciaRepository.save(new Asistencia(
                 null, 999L, 888L
         ));
     }
