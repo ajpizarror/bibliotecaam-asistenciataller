@@ -39,9 +39,8 @@ public class asistenciaController {
     }
 
     @PostMapping
-    public ResponseEntity<Asistencia> guardar(@Valid @RequestBody Asistencia asistencia){
-        Asistencia nuevaAsistencia = asistenciaService.guardar((asistencia));
-        return ResponseEntity.status(201).body(asistenciaService.guardar(nuevaAsistencia));
+    public ResponseEntity<AsistenciaResponseDTO> guardar(@Valid @RequestBody AsistenciaRequestDTO doto){
+        return ResponseEntity.status(201).body(asistenciaService.guardar(doto));
     }
 
     @PutMapping("/{id}")
