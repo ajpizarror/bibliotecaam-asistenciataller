@@ -30,7 +30,7 @@ public class DataInitializer implements CommandLineRunner {
         ));
 
         asistenciaRepository.save(new Asistencia(
-                null, 999L, 888L
+                null, 1L, 2L
         ));
     }
 }

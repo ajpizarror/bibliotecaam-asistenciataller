@@ -10,17 +10,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class AppConfig {
     @Value("${taller.url}")
     private String tallerUrl;
+
+
     @Bean
-    @Qualifier("tallerWebClient")
     public WebClient webClientTaller(){
         return  WebClient.builder()
                 .baseUrl(tallerUrl)
                 .build();
     }
+
+
     @Value("${usuario.url}")
     private String usuarioUrl;
+
     @Bean
-    @Qualifier("usuarioWebClient")
     public WebClient webClientUsuario(){
         return WebClient.builder()
                 .baseUrl(usuarioUrl)

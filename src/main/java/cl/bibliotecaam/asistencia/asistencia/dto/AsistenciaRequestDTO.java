@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AsistenciaRequestDTO {
+
+
     @NotNull(message = "El usuario es obligatorio")
     private Long idUsuario;
     @NotNull(message = "El taller es obligatorio")

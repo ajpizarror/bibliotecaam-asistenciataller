@@ -112,7 +112,6 @@ public class AsistenciaService {
             validarUsuario(doto.getIdUsuario());
             existente.setIdUsuario(doto.getIdUsuario());
             existente.setIdTaller(doto.getIdTaller());
-
             return mapToDTO(existente);
         });
     }
