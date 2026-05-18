@@ -11,6 +11,8 @@ public class AppConfig {
     @Value("${taller.url}")
     private String tallerUrl;
 
+    @Value("${usuario.url}")
+    private String usuarioUrl;
 
     @Bean
     public WebClient webClientTaller(){
@@ -18,10 +20,6 @@ public class AppConfig {
                 .baseUrl(tallerUrl)
                 .build();
     }
-
-
-    @Value("${usuario.url}")
-    private String usuarioUrl;
 
     @Bean
     public WebClient webClientUsuario(){
