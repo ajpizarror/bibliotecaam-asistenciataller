@@ -93,7 +93,6 @@ public class AsistenciaService {
     public AsistenciaResponseDTO guardar(AsistenciaRequestDTO dto){
         validarUsuario(dto.getIdUsuario());
         validarTaller(dto.getIdTaller());
-
         Asistencia asistencia = new Asistencia(
                 null,
                 dto.getIdTaller(),
@@ -108,8 +107,8 @@ public class AsistenciaService {
 
     public Optional<AsistenciaResponseDTO> actualizar(Long id, AsistenciaRequestDTO doto){
         return asistenciaRepository.findById(id).map(existente -> {
-            validarTaller(doto.getIdTaller());
             validarUsuario(doto.getIdUsuario());
+            validarTaller(doto.getIdTaller());
             existente.setIdUsuario(doto.getIdUsuario());
             existente.setIdTaller(doto.getIdTaller());
             return mapToDTO(existente);

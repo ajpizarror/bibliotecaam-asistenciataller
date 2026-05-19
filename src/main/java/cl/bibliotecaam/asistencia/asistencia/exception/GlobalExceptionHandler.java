@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
                 .forEach(e -> errores.put(e.getField(), e.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errores);
     }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Map<String, String>> handleRuntime(RuntimeException ex) {
         Map<String, String> error = new HashMap<>();
