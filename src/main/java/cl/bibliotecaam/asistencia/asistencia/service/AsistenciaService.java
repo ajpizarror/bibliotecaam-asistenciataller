@@ -95,8 +95,8 @@ public class AsistenciaService {
         validarTaller(dto.getIdTaller());
         Asistencia asistencia = new Asistencia(
                 null,
-                dto.getIdTaller(),
-                dto.getIdUsuario()
+                dto.getIdUsuario(),
+                dto.getIdTaller()
         );
         return mapToDTO(asistenciaRepository.save(asistencia));
     }
@@ -111,7 +111,7 @@ public class AsistenciaService {
             validarTaller(doto.getIdTaller());
             existente.setIdUsuario(doto.getIdUsuario());
             existente.setIdTaller(doto.getIdTaller());
-            return mapToDTO(existente);
+            return mapToDTO(asistenciaRepository.save(existente));
         });
     }
 

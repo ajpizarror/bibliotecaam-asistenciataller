@@ -15,7 +15,7 @@ public class Asistencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAsistencia;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long idUsuario;
     @Column(nullable = false)
     private Long idTaller;
