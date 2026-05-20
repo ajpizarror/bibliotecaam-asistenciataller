@@ -5,10 +5,13 @@ import cl.bibliotecaam.asistencia.asistencia.dto.AsistenciaResponseDTO;
 import cl.bibliotecaam.asistencia.asistencia.service.AsistenciaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -49,12 +52,17 @@ public class AsistenciaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> eliminar (@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String,String>> eliminar (@PathVariable Long id){
         if (asistenciaService.obtenerPorId(id).isEmpty()){
-            return ResponseEntity.notFound().build();
+            Map<String, String> borrado = new LinkedHashMap<>();
+            borrado.put("¡ERROR! ", "¡La asistencia con id "+id+" no fue encontrada!");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(borrado);
+        }else {
+            asistenciaService.eliminarPorId(id);
+            Map<String, String> borrado = new LinkedHashMap<>();
+            borrado.put("¡EXITO! ", "¡La asistencia fue eliminada con exito!");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(borrado);
         }
-        asistenciaService.eliminarPorId(id);
-        return ResponseEntity.noContent().build();
     }
 }
