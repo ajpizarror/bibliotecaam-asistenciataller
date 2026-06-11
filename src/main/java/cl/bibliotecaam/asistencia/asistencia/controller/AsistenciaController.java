@@ -1,5 +1,6 @@
 package cl.bibliotecaam.asistencia.asistencia.controller;
 
+import cl.bibliotecaam.asistencia.asistencia.assemblers.AsistenciaModelAssembler;
 import cl.bibliotecaam.asistencia.asistencia.dto.AsistenciaRequestDTO;
 import cl.bibliotecaam.asistencia.asistencia.dto.AsistenciaResponseDTO;
 import cl.bibliotecaam.asistencia.asistencia.model.Asistencia;
@@ -12,6 +13,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 
 @RestController
@@ -29,14 +37,22 @@ import java.util.Optional;
 public class AsistenciaController {
     private final AsistenciaService asistenciaService;
 
-    @GetMapping
+    @Autowired
+    private AsistenciaModelAssembler assembler;
+
+    @GetMapping(produces = MediaTypes.HAL_JSON_VALUE)
     @Operation(summary = "Obtener todas las asistencias", description = "Obtiene una lista de todas las asistencias-")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operacion exitosa"),
             @ApiResponse(responseCode = "404", description = "Asistencia no encontrada")
     })
-    public ResponseEntity<List<AsistenciaResponseDTO>> obtenerTodas(){
-        return ResponseEntity.ok(asistenciaService.listarTodas());
+    public ResponseEntity<CollectionModel<EntityModel<AsistenciaResponseDTO>>> obtenerTodas(){
+        List<EntityModel<AsistenciaResponseDTO>> asistencias = asistenciaService.listarTodas().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(CollectionModel.of(asistencias,
+                linkTo(methodOn(AsistenciaController.class).obtenerTodas()).withSelfRel()));
     }
 
     @GetMapping("/{id}")
