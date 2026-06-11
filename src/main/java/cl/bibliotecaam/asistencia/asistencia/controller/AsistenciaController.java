@@ -61,8 +61,11 @@ public class AsistenciaController {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
             @ApiResponse(responseCode = "404", description = "Resenia no encontrada")
     })
-    public ResponseEntity<Optional<AsistenciaResponseDTO>> obtenerPorId(@PathVariable Long id){
-        return ResponseEntity.ok(asistenciaService.obtenerPorId(id));
+    public ResponseEntity<EntityModel<AsistenciaResponseDTO>> obtenerPorId(@PathVariable Long id){
+        return asistenciaService.obtenerPorId(id)
+                .map(assembler::toModel)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/usuario/{id}")
@@ -71,8 +74,13 @@ public class AsistenciaController {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
             @ApiResponse(responseCode = "404", description = "Asistencia no encontrada")
     })
-    public ResponseEntity<List<AsistenciaResponseDTO>> obtenerPorUsuario(@PathVariable Long id){
-        return ResponseEntity.ok(asistenciaService.listarPorUsuario(id));
+    public ResponseEntity<CollectionModel<EntityModel<AsistenciaResponseDTO>>> obtenerPorUsuario(@PathVariable Long id){
+        List<EntityModel<AsistenciaResponseDTO>> asistencias = asistenciaService.listarPorUsuario(id).stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(CollectionModel.of(asistencias,
+                linkTo(methodOn(AsistenciaController.class).obtenerPorUsuario(id)).withSelfRel()));
     }
 
     @GetMapping("/taller/{id}")
@@ -81,8 +89,13 @@ public class AsistenciaController {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
             @ApiResponse(responseCode = "404", description = "Asistencia no encontrada")
     })
-    public ResponseEntity<List<AsistenciaResponseDTO>> obtenerPorTaller(@PathVariable Long id){
-        return ResponseEntity.ok(asistenciaService.listarPorTaller(id));
+    public ResponseEntity<CollectionModel<EntityModel<AsistenciaResponseDTO>>> obtenerPorTaller(@PathVariable Long id){
+        List<EntityModel<AsistenciaResponseDTO>> asistencias = asistenciaService.listarPorTaller(id).stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(CollectionModel.of(asistencias,
+                linkTo(methodOn(AsistenciaController.class).obtenerPorTaller(id)).withSelfRel()));
     }
 
     @PostMapping
@@ -92,8 +105,9 @@ public class AsistenciaController {
             @ApiResponse(responseCode = "400", description = "Error al ingresar parametros. Revise si ingreso todos los parametros solicitados."),
             @ApiResponse(responseCode = "403", description = "No tienes permiso para hacer el cambio.")
     })
-    public ResponseEntity<AsistenciaResponseDTO> guardar(@Valid @RequestBody AsistenciaRequestDTO doto){
-        return ResponseEntity.status(201).body(asistenciaService.guardar(doto));
+    public ResponseEntity<EntityModel<AsistenciaResponseDTO>> guardar(@Valid @RequestBody AsistenciaRequestDTO doto){
+        AsistenciaResponseDTO nuevaAsistencia = asistenciaService.guardar(doto);
+        return ResponseEntity.status(201).body(assembler.toModel(nuevaAsistencia));
     }
 
     @PutMapping("/{id}")
@@ -104,8 +118,9 @@ public class AsistenciaController {
                             schema = @Schema(implementation = Asistencia.class))),
             @ApiResponse(responseCode = "404", description = "El id de la asistencia no existe.")
     })
-    public ResponseEntity<AsistenciaResponseDTO> actualizar(@PathVariable Long id, @Valid @RequestBody AsistenciaRequestDTO doto){
+    public ResponseEntity<EntityModel<AsistenciaResponseDTO>> actualizar(@PathVariable Long id, @Valid @RequestBody AsistenciaRequestDTO doto){
         return asistenciaService.actualizar(id, doto)
+                .map(assembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
