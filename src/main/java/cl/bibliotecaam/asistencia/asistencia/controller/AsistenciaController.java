@@ -55,7 +55,7 @@ public class AsistenciaController {
                 linkTo(methodOn(AsistenciaController.class).obtenerTodas()).withSelfRel()));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaTypes.HAL_JSON_VALUE)
     @Operation(summary = "Obtener asistencia por id", description = "Obtiene una asistencia acorde a una id.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Operación exitosa"),
