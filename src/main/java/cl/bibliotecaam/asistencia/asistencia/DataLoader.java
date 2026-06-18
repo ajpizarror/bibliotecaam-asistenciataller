@@ -1,4 +1,4 @@
-package cl.bibliotecaam.asistencia.asistencia.config;
+package cl.bibliotecaam.asistencia.asistencia;
 
 import cl.bibliotecaam.asistencia.asistencia.model.Asistencia;
 import cl.bibliotecaam.asistencia.asistencia.repository.AsistenciaRepository;
@@ -23,7 +23,6 @@ public class DataLoader implements CommandLineRunner {
 
         for (int i = 0; i < 4; i++) {
             Asistencia asistencia = new Asistencia();
-            asistencia.setIdAsistencia((long) (i + 1));
             asistencia.setIdUsuario((long) (i + 1));
             asistencia.setIdTaller((long) (i + 1));
             asistenciaRepository.save(asistencia);
