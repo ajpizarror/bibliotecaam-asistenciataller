@@ -38,8 +38,6 @@ public class AsistenciaServiceTest {
 
     @BeforeEach
     public void limpiarMocks() {
-        // Esto borra el historial de llamadas (los 7 saves de los DataLoaders)
-        // para que cada test arranque desde cero.
         clearInvocations(asistenciaRepository);
     }
 
@@ -82,21 +80,16 @@ public class AsistenciaServiceTest {
 
     @Test
     public void testGuardar() {
-        // 1. Preparamos el DTO de entrada
         AsistenciaRequestDTO requestDTO = new AsistenciaRequestDTO(1L, 1L);
 
-        // 2. Simulamos que los WebClients responden un "200 OK"
         simularWebClientExitoso(webClientUsuario);
         simularWebClientExitoso(webClientTaller);
 
-        // 3. Simulamos lo que devuelve la Base de Datos al guardar
         Asistencia asistenciaGuardada = new Asistencia(1L, 1L, 1L);
         when(asistenciaRepository.save(any(Asistencia.class))).thenReturn(asistenciaGuardada);
 
-        // 4. Ejecutamos
         AsistenciaResponseDTO resultado = asistenciaService.guardar(requestDTO);
 
-        // 5. Validamos
         assertNotNull(resultado);
         assertEquals(1L, resultado.getIdAsistencia());
         verify(asistenciaRepository, times(1)).save(any(Asistencia.class));
@@ -124,7 +117,6 @@ public class AsistenciaServiceTest {
 
     @Test
     public void testEliminarPorId() {
-        // En los métodos void (que no devuelven nada), solo verificamos que se llamó al repositorio
         doNothing().when(asistenciaRepository).deleteById(1L);
 
         asistenciaService.eliminarPorId(1L);
@@ -132,7 +124,6 @@ public class AsistenciaServiceTest {
         verify(asistenciaRepository, times(1)).deleteById(1L);
     }
 
-    // --- MÉTODOS AUXILIARES ---
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void simularWebClientExitoso(WebClient webClientMock) {
