@@ -1,4 +1,4 @@
-package cl.bibliotecaam.asistencia.asistencia; // Ajusta el paquete a .controller si corresponde
+package cl.bibliotecaam.asistencia.asistencia;
 
 import cl.bibliotecaam.asistencia.asistencia.assemblers.AsistenciaModelAssembler;
 import cl.bibliotecaam.asistencia.asistencia.controller.AsistenciaController;
@@ -45,7 +45,6 @@ class AsistenciaControllerTest {
     @Test
     @DisplayName("GIVEN: Existen asistencias WHEN: GET /api/bibliotecaam/asistencia THEN: Retorna 200 ok y la lista")
     void shouldReturnTodasLasAsistencias() throws Exception {
-        // Usamos setters para evitar problemas de compilación si no tienes @AllArgsConstructor
         AsistenciaResponseDTO asis1 = new AsistenciaResponseDTO();
         asis1.setIdAsistencia(1L);
         asis1.setIdUsuario(1L);
