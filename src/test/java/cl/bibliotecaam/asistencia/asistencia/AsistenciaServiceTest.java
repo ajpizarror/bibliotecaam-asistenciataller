@@ -105,7 +105,6 @@ public class AsistenciaServiceTest {
 
         when(asistenciaRepository.findById(1L)).thenReturn(Optional.of(asistenciaExistente));
 
-        // El repositorio guarda y devuelve la asistencia con los datos nuevos
         when(asistenciaRepository.save(any(Asistencia.class))).thenReturn(new Asistencia(1L, 2L, 2L));
 
         Optional<AsistenciaResponseDTO> resultado = asistenciaService.actualizar(1L, requestDTO);
